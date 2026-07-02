@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Swarm Rescue Ops — Host</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+    <body class="host-page">
+        <div class="scanline"></div>
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">8-BIT SWARM ROBOTICS CO-OP</p>
+                <h1>SWARM<span> RESCUE</span> OPS</h1>
+                <p class="subtitle">
+                    ฝูงหุ่นยนต์พิทักษ์โลก — เก็บกู้สารพิษก่อนปฏิกรณ์ล่ม
+                </p>
+            </div>
+            <div class="status-chip" id="serverStatus">SERVER: CONNECTING</div>
+        </header>
+
+        <main class="host-layout">
+            <section class="panel hero-panel">
+                <div class="panel-label">HOST LOBBY</div>
+                <div class="mission-copy">
+                    <h2>MISSION BRIEF</h2>
+                    <p>
+                        โรงงานปฏิกรณ์นิวเคลียร์ระเบิด มนุษย์เข้าไปไม่ได้
+                        ส่งหุ่นยนต์ขนาดเล็ก 1-3 ตัวเข้าไปเก็บกู้ถังสารพิษ
+                        ซ่อมระบบ และบริหารพลังงานให้พอกลับสู่ Safe Zone
+                    </p>
+                </div>
+
+                <div class="lobby-grid">
+                    <div class="qr-card">
+                        <div class="qr-placeholder" id="qrPlaceholder">
+                            <span>กด CREATE ROOM</span>
+                        </div>
+                        <img
+                            id="qrImage"
+                            class="qr-image"
+                            alt="QR สำหรับเข้าร่วมเกม"
+                            hidden
+                        />
+                        <p id="joinUrl" class="join-url">รอสร้างห้อง...</p>
+                    </div>
+
+                    <div class="lobby-actions">
+                        <button class="pixel-btn primary" id="createRoomBtn">
+                            CREATE ROOM
+                        </button>
+                        <button
+                            class="pixel-btn success"
+                            id="startBtn"
+                            disabled
+                        >
+                            START MISSION
+                        </button>
+                        <button class="pixel-btn ghost" id="resetBtn" disabled>
+                            RESET ROOM
+                        </button>
+                        <div class="room-code-box">
+                            ROOM CODE
+                            <strong id="roomCode">----</strong>
+                        </div>
+                        <p class="hint">
+                            เปิดหน้านี้บนคอม Host แล้วให้ผู้เล่นสแกน QR
+                            ด้วยมือถือ
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel arena-panel">
+                <div class="panel-label">SIMULATION ARENA</div>
+                <div class="hud">
+                    <div>
+                        <small>TIME</small><strong id="timeLeft">02:00</strong>
+                    </div>
+                    <div>
+                        <small>SCORE</small><strong id="score">0/3</strong>
+                    </div>
+                    <div>
+                        <small>STATUS</small
+                        ><strong id="gameStatus">LOBBY</strong>
+                    </div>
+                    <div>
+                        <small>COLLISION</small
+                        ><strong id="collisions">0</strong>
+                    </div>
+                </div>
+
+                <div class="arena" id="arena">
+                    <div class="grid"></div>
+                    <div class="mission-result" id="missionResult" hidden></div>
+                    <div class="safe-zone" id="safeZone">SAFE<br />ZONE</div>
+                    <div id="obstacleLayer"></div>
+                    <div id="enemyLayer"></div>
+                    <div id="barrelLayer"></div>
+                    <div id="playerLayer"></div>
+                </div>
+            </section>
+
+            <section class="panel info-panel">
+                <div class="panel-label">PLAYER STATUS</div>
+                <div class="player-cards" id="playerCards"></div>
+            </section>
+
+            <section class="panel info-panel">
+                <div class="panel-label">GAMEPLAY BLUEPRINT</div>
+                <div class="blueprint-grid">
+                    <article>
+                        <h3>Dynamic Heavy Cargo</h3>
+                        <p>
+                            1 คนไม่มีถังใหญ่ · 2 คนมี 1 ถังใหญ่ · 3 คนมี 2
+                            ถังใหญ่ ต้องช่วยกัน GRAB
+                        </p>
+                    </article>
+                    <article>
+                        <h3>Random Arena Layout</h3>
+                        <p>
+                            Cargo, Wall/Obstacle และ Enemy Spawn
+                            จะสุ่มตำแหน่งทุกครั้งที่สร้างห้องหรือ Reset
+                        </p>
+                    </article>
+                    <article>
+                        <h3>Melee Drones</h3>
+                        <p>
+                            ศัตรูจะวิ่งเข้ามาโจมตีระยะประชิด หลบง่ายกว่ากระสุน
+                            แต่โดนแล้วเสีย energy
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel log-panel">
+                <div class="panel-label">EVENT LOG</div>
+                <ul id="eventLog"></ul>
+            </section>
+        </main>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/host.js"></script>
+    </body>
+</html>

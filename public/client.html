@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Swarm Rescue Ops — Controller</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+    <body class="client-page">
+        <div class="scanline"></div>
+
+        <main class="controller-shell">
+            <section class="controller-header">
+                <p class="eyebrow">MOBILE ROBOT CONTROL</p>
+                <h1 id="playerName">SWARM CTRL</h1>
+                <div class="controller-meta">
+                    <span id="roomBadge">ROOM ----</span>
+                    <span id="pilotBadge">WAITING</span>
+                </div>
+            </section>
+
+            <section class="join-panel" id="joinPanel">
+                <label>
+                    ROOM CODE
+                    <input id="roomInput" maxlength="4" placeholder="AB12" />
+                </label>
+                <label>
+                    PILOT NAME
+                    <input
+                        id="nameInput"
+                        maxlength="18"
+                        placeholder="Robot Pilot"
+                    />
+                </label>
+                <button class="pixel-btn primary" id="joinBtn">
+                    JOIN SWARM
+                </button>
+                <p id="joinError" class="error-text"></p>
+            </section>
+
+            <section class="controller-panel" id="controllerPanel" hidden>
+                <div class="client-result" id="clientResult" hidden></div>
+                <div class="battery-card">
+                    <div>
+                        <small>BATTERY</small>
+                        <strong id="batteryText">100%</strong>
+                    </div>
+                    <div class="battery-bar">
+                        <span id="batteryFill"></span>
+                    </div>
+                    <div class="cargo-line">
+                        CARGO: <span id="cargoText">EMPTY</span>
+                    </div>
+                </div>
+
+                <div class="controls-grid">
+                    <div class="dpad">
+                        <button data-key="up">▲</button>
+                        <button data-key="left">◀</button>
+                        <button data-key="down">▼</button>
+                        <button data-key="right">▶</button>
+                    </div>
+
+                    <div class="action-stack">
+                        <button class="action-btn grab" id="grabBtn">
+                            GRAB<br />RELEASE
+                        </button>
+                        <button class="action-btn boost" data-key="boost">
+                            BOOST
+                        </button>
+                        <button class="action-btn transfer" id="transferBtn">
+                            TRANSFER<br />PWR
+                        </button>
+                    </div>
+                </div>
+
+                <p class="controller-hint">
+                    ทุกการเดินเสีย Battery · กดค้างเพื่อเดิน · Boost
+                    เร็วแต่กินพลังงานมาก
+                </p>
+            </section>
+        </main>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/client.js"></script>
+    </body>
+</html>

@@ -1,5 +1,3 @@
-const socket = io();
-
 let currentRoomCode = null;
 let latestState = null;
 

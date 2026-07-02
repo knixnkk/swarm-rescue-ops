@@ -1,4 +1,3 @@
-const socket = io();
 const params = new URLSearchParams(window.location.search);
 
 let roomCode = (params.get("room") || "").toUpperCase();

@@ -48,6 +48,26 @@ https://swarm-rescue-ops-[random-id].onrender.com
 ✅ QR code generation endpoint  
 ✅ Game state management via WebSockets  
 
+## Switching Between Localhost & Render
+
+### Auto-Detection
+The app automatically detects whether you're running on:
+- **Localhost**: Uses `localhost:3000` 
+- **Render**: Uses your Render deployment URL
+
+### Manual Server Override
+To manually specify a different server, add the `server` parameter:
+
+```
+https://your-render-url.onrender.com/?server=https://different-server.onrender.com
+https://your-render-url.onrender.com/client.html?room=XXXX&server=https://different-server.onrender.com
+```
+
+This is useful for:
+- Testing production server from local machine
+- Connecting to a different Render instance
+- Cross-server gameplay testing
+
 ## Testing After Deployment
 1. Open your Render URL in a browser
 2. You should see the Host screen

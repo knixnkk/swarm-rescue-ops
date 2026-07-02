@@ -16,6 +16,10 @@ const els = {
   playerName: document.getElementById("playerName"),
   roomBadge: document.getElementById("roomBadge"),
   pilotBadge: document.getElementById("pilotBadge"),
+  serverStatus: document.getElementById("serverStatus"),
+  connectionStatus: document.getElementById("connectionStatus"),
+  serverUrl: document.getElementById("serverUrl"),
+  connectionMessage: document.getElementById("connectionMessage"),
   joinPanel: document.getElementById("joinPanel"),
   controllerPanel: document.getElementById("controllerPanel"),
   roomInput: document.getElementById("roomInput"),
@@ -29,6 +33,15 @@ const els = {
   grabBtn: document.getElementById("grabBtn"),
   transferBtn: document.getElementById("transferBtn"),
 };
+
+// Show connection status
+const displayServerUrl = () => {
+  const origin = window.location.origin;
+  els.serverUrl.textContent = origin;
+  els.connectionStatus.style.display = 'block';
+};
+
+displayServerUrl();
 
 if (roomCode) {
   els.roomInput.value = roomCode;
@@ -53,15 +66,27 @@ els.grabBtn.addEventListener("click", () => sendAction("grab"));
 els.transferBtn.addEventListener("click", () => sendAction("transfer"));
 
 socket.on("connect", () => {
+  console.log('[CLIENT] Connected to server');
   els.pilotBadge.textContent = "CONNECTED";
+  els.serverStatus.textContent = "ONLINE";
+  els.serverStatus.style.background = "#00ff88";
+  els.connectionMessage.textContent = "✓ Connected";
 });
 
 socket.on("disconnect", () => {
+  console.log('[CLIENT] Disconnected from server');
   els.pilotBadge.textContent = "OFFLINE";
+  els.serverStatus.textContent = "OFFLINE";
+  els.serverStatus.style.background = "#ff3333";
+  els.connectionMessage.textContent = "✗ Disconnected";
 });
 
-socket.on("client:error", (message) => {
-  els.joinError.textContent = message;
+socket.on("connect_error", (error) => {
+  console.error('[CLIENT] Connection error:', error.message);
+  els.serverStatus.textContent = "ERROR";
+  els.serverStatus.style.background = "#ffaa00";
+  els.connectionMessage.textContent = `✗ Error: ${error.message}`;
+  els.joinError.textContent = `Connection error: ${error.message}. Check console (F12) for details.`;
 });
 
 socket.on(

@@ -459,6 +459,19 @@ function syncBarrelsForPlayerCount(room) {
 }
 
 function getPublicHost(reqHost) {
+  // If running on Render (onrender.com domain), use it as-is
+  if (reqHost && reqHost.includes('onrender.com')) {
+    console.log('[HOST] Using Render domain:', reqHost);
+    return reqHost;
+  }
+  
+  // If production env var is set, use current host
+  if (process.env.NODE_ENV === 'production') {
+    console.log('[HOST] Production mode, using request host:', reqHost);
+    return reqHost || 'localhost:' + PORT;
+  }
+  
+  // Development: try to find local network IP
   const interfaces = os.networkInterfaces();
   const port =
     reqHost && reqHost.includes(":") ? reqHost.split(":").pop() : String(PORT);
@@ -466,6 +479,7 @@ function getPublicHost(reqHost) {
   for (const nets of Object.values(interfaces)) {
     for (const net of nets || []) {
       if (net.family === "IPv4" && !net.internal) {
+        console.log('[HOST] Using local network IP:', `${net.address}:${port}`);
         return `${net.address}:${port}`;
       }
     }
@@ -849,7 +863,9 @@ io.on("connection", (socket) => {
     socket.join(`room:${room.code}`);
 
     const publicHost = getPublicHost(host);
-    const joinUrl = `http://${publicHost}/client.html?room=${room.code}`;
+    // Use https for Render, http for local development
+    const protocol = publicHost.includes('onrender.com') ? 'https' : 'http';
+    const joinUrl = `${protocol}://${publicHost}/client.html?room=${room.code}`;
     socket.emit("host:room_created", {
       code: room.code,
       joinUrl,

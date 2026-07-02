@@ -19,6 +19,7 @@
                 <div class="controller-meta">
                     <span id="roomBadge">ROOM ----</span>
                     <span id="pilotBadge">WAITING</span>
+                    <span id="serverStatus" style="font-size: 0.7em; padding: 0.3em 0.6em; background: #ff3333; border-radius: 2px;">OFFLINE</span>
                 </div>
             </section>
 
@@ -39,6 +40,10 @@
                     JOIN SWARM
                 </button>
                 <p id="joinError" class="error-text"></p>
+                <div id="connectionStatus" style="margin-top: 1em; font-size: 0.8em; padding: 0.5em; background: rgba(0,0,0,0.5); border-radius: 2px; display: none;">
+                    <strong>SERVER:</strong> <span id="serverUrl" style="word-break: break-all;"></span><br/>
+                    <strong>STATUS:</strong> <span id="connectionMessage">Connecting...</span>
+                </div>
             </section>
 
             <section class="controller-panel" id="controllerPanel" hidden>

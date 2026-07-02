@@ -164,7 +164,20 @@ const io = new Server(server, {
   cors: { origin: "*" },
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files with proper MIME types and caching
+app.use(express.static(path.join(__dirname, "public"), {
+  maxAge: "1h",
+  etag: false,
+  setHeaders: (res, path) => {
+    if (path.endsWith(".css")) {
+      res.setHeader("Content-Type", "text/css; charset=utf-8");
+    } else if (path.endsWith(".js")) {
+      res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+    } else if (path.endsWith(".html")) {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+    }
+  },
+}));
 
 app.get("/qr", async (req, res) => {
   const data = String(req.query.data || "");

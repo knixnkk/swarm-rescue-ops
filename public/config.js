@@ -1,7 +1,7 @@
 /**
  * Socket.IO Connection Configuration
  * 
- * Auto-detects localhost vs production (Render) environment
+ * Connects to the current Render server
  * Can be overridden by passing 'server' URL parameter: ?server=https://your-render-url.onrender.com
  */
 
@@ -11,18 +11,12 @@ const getServerUrl = () => {
   const urlServer = params.get('server');
   
   if (urlServer) {
-    console.log('[CONFIG] Using server from URL parameter:', urlServer);
+    console.log('[CONFIG] Using custom server:', urlServer);
     return urlServer;
   }
   
-  // Auto-detect based on current location
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    console.log('[CONFIG] Localhost detected');
-    return ''; // Use same origin (default behavior)
-  }
-  
-  // Production: use current origin
-  console.log('[CONFIG] Production detected, using current origin');
+  // Use current origin (Render will provide the correct URL)
+  console.log('[CONFIG] Using current server:', window.location.origin);
   return '';
 };
 

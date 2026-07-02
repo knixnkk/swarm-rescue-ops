@@ -161,7 +161,14 @@ function getLocalIp() {
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: { 
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+  transports: ["websocket", "polling"],
+  pingInterval: 25000,
+  pingTimeout: 60000,
+  maxHttpBufferSize: 1e6,
 });
 
 // Serve static files with proper MIME types and caching
@@ -831,6 +838,8 @@ function transferPower(room, player) {
 }
 
 io.on("connection", (socket) => {
+  console.log(`[SOCKET] New connection: ${socket.id} from ${socket.handshake.address}`);
+  
   socket.on("host:create_room", ({ host } = {}) => {
     const existing = findRoomBySocket(socket.id);
     if (existing) rooms.delete(existing.code);
@@ -976,7 +985,7 @@ setInterval(() => {
   }
 }, 1000 / TICK_RATE);
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   const currentIp = getLocalIp();
   const networkUrl = `http://${currentIp}:${PORT}`;
   console.log(`Swarm Rescue Ops running at http://localhost:${PORT}`);

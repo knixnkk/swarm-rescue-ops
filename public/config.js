@@ -28,3 +28,20 @@ const socket = io(SOCKET_SERVER_URL, {
   reconnectionDelayMax: 5000,
   reconnectionAttempts: 5,
 });
+
+// Debug logging
+socket.on('connect', () => {
+  console.log('[SOCKET] Connected:', socket.id);
+});
+
+socket.on('connect_error', (error) => {
+  console.error('[SOCKET] Connection error:', error.message);
+});
+
+socket.on('disconnect', (reason) => {
+  console.warn('[SOCKET] Disconnected:', reason);
+});
+
+socket.on('error', (error) => {
+  console.error('[SOCKET] Error:', error);
+});
